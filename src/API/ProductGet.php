@@ -2,11 +2,21 @@
 
 namespace App\Api;
 
+use Exception;
 use App\Api\AbstractAction;
 
 class ProductGet extends AbstractAction{
+
+    protected ?string $method = 'GET';
+
     public function action()
     {
-       return json_encode($this->engin->getQueryLoop("SELECT id,name From `product` WHERE id = $this->id;")[0]);
+        $query = $this->engin->getQueryLoop("SELECT id,name From `product` WHERE id = $this->id;");
+        
+        if(count($query) > 0){
+            return json_encode($query[0]);
+        }
+
+        throw new Exception('Not Found');
     }
 }
