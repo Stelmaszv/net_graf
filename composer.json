@@ -1,0 +1,27 @@
+{
+    "name": "framework/igx",
+    "description": "Back-end - Framework",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stelmaszv",
+            "email": "stelmaszv@igx.tech"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "scripts": {
+        "run-phpunit": "vendor/bin/phpunit"
+    },
+  "require": {
+    "ext-mysqli": "*",
+    "ext-pdo": "*"
+  },
+    "require-dev": {
+        "phpunit/phpunit": "10.5.x-dev"
+    }
+}
