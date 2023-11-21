@@ -4,6 +4,7 @@ use App\Api\ProductAdd;
 use App\Api\ProductGet;
 use App\Api\ProductsList;
 use App\Api\ProductDelete;
+use App\Api\ProductUpdate;
 require('vendor/autoload.php');
 
 $connect = Connect::getInstance();
@@ -30,6 +31,9 @@ if(isset($_GET['action'])){
             break;
         case "add":
             $view = new ProductAdd($engine,null,$POST);
+            break;
+        case "update":
+            $view = new ProductUpdate($engine,$_GET['id'],$POST);
             break;
         default:
             echo "Invalid action.";
