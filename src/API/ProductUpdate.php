@@ -2,12 +2,11 @@
 
 namespace App\Api;
 
-use Exception;
 use App\Api\AbstractAction;
 
 class ProductUpdate extends AbstractAction{
 
-    protected ?string $method = 'PUT';
+    protected ?string $method = 'POST';
 
     public function action()
     {

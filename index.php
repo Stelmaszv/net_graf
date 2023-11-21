@@ -1,8 +1,8 @@
 <?php
 use App\DB\Connect;
+use App\Api\ProductsList;
 use App\Api\ProductAdd;
 use App\Api\ProductGet;
-use App\Api\ProductsList;
 use App\Api\ProductDelete;
 use App\Api\ProductUpdate;
 require('vendor/autoload.php');
@@ -12,11 +12,7 @@ $engine = $connect->getEngine();
 
 $view = null;
 
-$POST = [
-    'name' => 'fewff',
-    'quantity' => 'dwqd@fqef.com',
-    'type' => 'dwqd'
-];
+
 
 if(isset($_GET['action'])){
     switch ($_GET['action']) {
@@ -33,7 +29,7 @@ if(isset($_GET['action'])){
             $view = new ProductAdd($engine,null,$POST);
             break;
         case "update":
-            $view = new ProductUpdate($engine,$_GET['id'],$POST);
+            $view = new ProductUpdate($engine,$_GET['id'],$_POST);
             break;
         default:
             echo "Invalid action.";
