@@ -10,7 +10,8 @@ class ProductUpdate extends AbstractAction{
 
     public function action()
     {
-        return $this->engin->runQuery($this->buildUpDateQuery(),'');
+        $this->engin->runQuery($this->buildUpDateQuery(),'');
+        return json_encode(['Succes']);
     }
 
     protected function setValidationRouls() : array 

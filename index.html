@@ -311,6 +311,24 @@ function post($id,$action,dataSent){
       </div>
     </nav>
 
+    <div class="alert alert-danger" id="erros" role="alert" style="visibility: hidden;"></div>
+
+    <form class="add" style="visibility: hidden;" class="row g-3">
+      <div class="mb-3 row">
+        <label for="name" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <input type="text" class="addForm form-control" id="name" name="name">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="quantity" class="col-sm-2 col-form-label">Quantity</label>
+        <div class="col-sm-10">
+          <input type="text" class="addForm form-control" name="quantity" id="quantity">
+        </div>
+      </div>
+      <button class="btn btn-primary mb-3 addBut" onclick="add(event)"> Dodaj </button>
+    </form>
+
     <div id="view"></div>
     <script>
       let showAdd = document.querySelector(".showAdd");
@@ -325,6 +343,7 @@ function post($id,$action,dataSent){
       showList.addEventListener("click", function(event) {;
         event.preventDefault()
         resetView()
+        list()
       });
 
       list()
@@ -349,12 +368,9 @@ function post($id,$action,dataSent){
 
         for(let el of data){
       
-
-
           var row = document.createElement("div");
           row.classList.add("pet");
           row.classList.add("row");
-
 
           var name = document.createElement("div");
           name.classList.add("col");
@@ -370,6 +386,26 @@ function post($id,$action,dataSent){
             get(showBtn.id)
           });
           row.appendChild(showBtn);
+
+          var updateBtn = document.createElement("div");
+          updateBtn.classList.add("col");
+          updateBtn.innerHTML = 'zmień'
+          updateBtn.id = el.id
+          updateBtn.addEventListener("click", function() {;
+            refresh()
+            update(updateBtn.id)
+          });
+          row.appendChild(updateBtn);
+
+          var removeBtn = document.createElement("div");
+          removeBtn.classList.add("col");
+          removeBtn.innerHTML = 'usuń'
+          removeBtn.id = el.id
+          removeBtn.addEventListener("click", function() {;
+            refresh()
+            remove(removeBtn.id)
+          });
+          row.appendChild(removeBtn);
 
           document.body.appendChild(row);
           /*
@@ -433,9 +469,7 @@ function post($id,$action,dataSent){
     }
 
     function get($id){
-      $url = 'http://localhost:3000/index.php?action=get&id='+$id
-      // Adres URL API, z którego chcesz pobrać dane
-    const apiUrl = $url;
+      const apiUrl = 'http://localhost:3000/index.php?action=get&id='+$id;
     
     // Użyj funkcji fetch do pobrania danych z API
     fetch(apiUrl)
@@ -460,7 +494,6 @@ function post($id,$action,dataSent){
 
       view.appendChild(row);
 
-
       let row2 = document.createElement("div");
       row2.classList.add("row");
 
@@ -477,16 +510,6 @@ function post($id,$action,dataSent){
 
       view.appendChild(row2);
 
-
-     
-      
-     // let nameDiv = document.createElement("div");
-     // nameDiv.innerHTML = data.name
-      //view.appendChild(nameDiv)
-    
-      //let nameEmial = document.createElement("div");
-      //nameEmial.innerHTML = data.quantity
-     // view.appendChild(nameEmial)
     })
     
     .catch(error => {
@@ -494,6 +517,161 @@ function post($id,$action,dataSent){
       console.error('Error fetching data:', error);
     });
     }
+
+    function update($id){
+      $url = 'http://localhost:3000/index.php?action=get&id='+$id
+        // Adres URL API, z którego chcesz pobrać dane
+    const apiUrl = $url;
+  
+    // Użyj funkcji fetch do pobrania danych z API
+    fetch(apiUrl)
+      .then(response => {
+        // Sprawdź, czy odpowiedź jest udana (status 200)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // Zwróć odpowiedź w formie obiektu JSON
+        return response.json();
+      })
+      .then(data => {
+        let formData = Object.entries(data)
+        let name = document.getElementById('name');;
+        name.value = data.name
+
+        let quantity = document.getElementById('quantity');
+        quantity.value = data.quantity
+
+        let form = document.querySelector(".add");
+        form.id = $id
+        form.style.visibility = 'visible';
+        // Otrzymane dane
+        /*
+        let view = document.getElementById('view');
+  
+        for(let el  of Object.entries(data)){
+          let name = el[0]
+          let value = el[1]
+  
+          var newElement = document.createElement("div");
+  
+          document.body.appendChild(newElement);
+  
+          var newElement = document.createElement("input");
+  
+          newElement.classList.add("form");
+  
+          newElement.value = value;
+  
+          newElement.name = name;
+        
+          view.appendChild(newElement);
+        }
+  
+        var buttonUpdate = document.createElement("button");
+        buttonUpdate.classList.add("setId");
+        buttonUpdate.id = $id
+        buttonUpdate.innerHTML = "Zapisz Zmiany"
+        view.appendChild(buttonUpdate);
+        buttonUpdate.addEventListener("click", function() {;
+          dataSent = []
+          for(let el  of document.querySelectorAll(".form")){
+            dataSent.push(el.value)
+          }
+        
+          post($id,'update',dataSent)
+          list()
+        });
+        */
+  
+      })
+  
+      .catch(error => {
+        // Obsługa błędów
+        console.error('Error fetching data:', error);
+      });
+  }
+
+    function remove($id){
+      const apiUrl = 'http://localhost:3000/index.php?action=delete&id='+$id;
+    
+      // Użyj funkcji fetch do pobrania danych z API
+      fetch(apiUrl).then(data => {
+        list()
+      })
+    }
+
+    function add(event){
+      event.preventDefault()
+      let form = document.querySelector(".add");
+      let dataSent = [];
+      for(let el  of document.querySelectorAll(".addForm")){
+        dataSent.push(el.value)
+      }
+      if(form.id){
+        post(form.id,'update',dataSent)
+      }else{
+        post(undefined,'add',dataSent)
+      }
+    }
+
+    function resetView(){
+      let erros = document.querySelector("#erros");
+      erros.innerHTML = '';
+      let form = document.querySelector(".add");
+      form.style.visibility = 'hidden';
+      for(let el  of document.querySelectorAll(".addForm")){
+        el.value = '';
+      }
+    }
+
+    function post($id,$action,dataSent){
+        var dataToSend = {
+            name: dataSent[0],
+            quantity: dataSent[1]
+        };
+        console.log(dataToSend)
+      // Utworzenie obiektu URLSearchParams i dodanie parametrów
+      var params = new URLSearchParams();
+      for (var key in dataToSend) {
+          params.append(key, dataToSend[key]);
+      }
+
+      $url = 'http://localhost:3000/index.php?action='+$action
+
+      if($id){
+        $url = 'http://localhost:3000/index.php?action='+$action+'&id='+$id
+      }
+
+
+      // Przykład użycia w żądaniu fetch
+      fetch($url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: params
+      })
+          .then(response =>
+            response.json()
+          )
+          .then(data => {
+              if(data && data[0] !== 'Succes'){
+                let erros = document.querySelector("#erros");
+                erros.style.visibility = 'visible';
+                erros.innerHTML = '';
+                for(let el of data){
+                  var newElement = document.createElement("li");
+                  newElement.innerHTML=el.Collumn+' - '+el.message
+                  erros.appendChild(newElement);
+                }
+              }else{
+                resetView()
+                let form = document.querySelector(".add");
+                form.style.visibility = 'hidden';
+                list()
+              }
+          })
+      }
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
