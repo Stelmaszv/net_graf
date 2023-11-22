@@ -1,0 +1,179 @@
+<body>
+    <div id="view"></div>
+</body>
+<script>
+    view(undefined,'list')
+function view($id,$action){
+
+  switch($action){
+    case 'update':
+      getForUpdate($id)
+    break;
+    case 'list':
+      list()
+    break;
+  }
+
+}
+
+function refresh(){
+  let view = document.querySelectorAll(".pet");
+  for (let pet of view){
+    pet.remove();
+  }
+}
+
+function list(){
+    // Adres URL API, z którego chcesz pobrać dane
+  const apiUrl = 'http://localhost:3000/index.php?action=list';
+
+  // Użyj funkcji fetch do pobrania danych z API
+  fetch(apiUrl)
+  .then(response => {
+    // Sprawdź, czy odpowiedź jest udana (status 200)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    // Zwróć odpowiedź w formie obiektu JSON
+    return response.json();
+  })
+  .then(data => {
+    // Otrzymane dane
+    let view = document.querySelector("#view");
+    for(let el of data){
+      var newElement = document.createElement("li");
+      newElement.classList.add("pet");
+      newElement.innerHTML = el.name
+
+      let show = document.createElement("button");
+      show.innerHTML = 'pokaż';
+      show.id = el.id
+      newElement.appendChild(show);
+
+      let del = document.createElement("button");
+      del.innerHTML = 'usuń';
+      del.id = el.id
+      newElement.appendChild(del);
+
+      let update = document.createElement("button");
+      update.innerHTML = 'zmień';
+      update.id = el.id
+
+      update.addEventListener("click", function() {;
+        refresh()
+        getForUpdate(update.id)
+      });
+
+      newElement.appendChild(update);
+
+      document.body.appendChild(newElement);
+    }
+
+    let newView = document.getElementById('view');
+    newView.innerHTML = '';
+
+  })
+
+  .catch(error => {
+    // Obsługa błędów
+    console.error('Error fetching data:', error);
+  });
+}
+
+function getForUpdate($id){
+    $url = 'http://localhost:3000/index.php?action=get&id='+$id
+      // Adres URL API, z którego chcesz pobrać dane
+  const apiUrl = $url;
+
+  // Użyj funkcji fetch do pobrania danych z API
+  fetch(apiUrl)
+    .then(response => {
+      // Sprawdź, czy odpowiedź jest udana (status 200)
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      // Zwróć odpowiedź w formie obiektu JSON
+      return response.json();
+    })
+    .then(data => {
+      // Otrzymane dane
+      let dataSent = [];
+
+      let view = document.getElementById('view');
+
+      for(let el  of Object.entries(data)){
+        let name = el[0]
+        let value = el[1]
+
+        var newElement = document.createElement("div");
+
+        document.body.appendChild(newElement);
+
+        var newElement = document.createElement("input");
+
+        newElement.classList.add("form");
+
+        newElement.value = value;
+
+        newElement.name = name;
+      
+        view.appendChild(newElement);
+      }
+
+      var buttonUpdate = document.createElement("button");
+      buttonUpdate.classList.add("setId");
+      buttonUpdate.id = $id
+      buttonUpdate.innerHTML = "Zapisz Zmiany"
+      view.appendChild(buttonUpdate);
+      buttonUpdate.addEventListener("click", function() {;
+        let dataSent = [];
+        for(let el  of document.querySelectorAll(".form")){
+          dataSent.push(el.value)
+        }
+        post($id,'update',dataSent)
+        list()
+      });
+
+    })
+
+    .catch(error => {
+      // Obsługa błędów
+      console.error('Error fetching data:', error);
+    });
+}
+
+function post($id,$action,dataSent){
+      var dataToSend = {
+          name: dataSent[0],
+          quantity: dataSent[1]
+      };
+      console.log(dataToSend)
+    // Utworzenie obiektu URLSearchParams i dodanie parametrów
+    var params = new URLSearchParams();
+    for (var key in dataToSend) {
+        params.append(key, dataToSend[key]);
+    }
+
+    $url = 'http://localhost:3000/index.php?action='+$action
+
+    if($id){
+      $url = 'http://localhost:3000/index.php?action='+$action+'&id='+$id
+    }
+
+
+    // Przykład użycia w żądaniu fetch
+    fetch($url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Odpowiedź z serwera:', data);
+        })
+}
+
+
+</script>
