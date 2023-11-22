@@ -18,14 +18,14 @@ class ProductUpdate extends AbstractAction{
     { 
        return [
             "name" => 'Required',
-            "quantity" => 'Required | Email',
+            "contact" => 'Required | Email',
        ];
     }
 
     private function buildUpDateQuery(): string
     {
 
-        $sql = 'UPDATE `product` SET';
+        $sql = 'UPDATE `pets` SET';
         
         $count = 0;
         foreach($this->data as $key => $value){

@@ -19,7 +19,7 @@ class ProductAdd extends AbstractAction{
     { 
        return [
             "name" => 'Required',
-            "quantity" => 'Required | Email',
+            "contact" => 'Required | Email',
        ];
     }
 
@@ -35,7 +35,7 @@ class ProductAdd extends AbstractAction{
 
         return sprintf(
             'INSERT INTO `%s` (%s) VALUES (%s);',
-            'product',
+            'pets',
             implode(', ', $columns),
             implode(', ', $values)
         );

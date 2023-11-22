@@ -59,12 +59,12 @@ abstract class AbstractAction{
     protected function getColumns(){
         return array_map(function(array $elemnt) {
             return $elemnt['column_name'];
-        }, $this->engin->getQueryLoop("SELECT column_name FROM information_schema.columns WHERE table_name = 'product';"));
+        }, $this->engin->getQueryLoop("SELECT column_name FROM information_schema.columns WHERE table_name = 'pets';"));
     }
 
     private function fieldValidation(array $data){
         
-        foreach(array_keys($data) as $column){
+        foreach(array_keys($data) as $column){;
             if(!in_array($column,$this->getColumns())){
                 $this->errors[] = [
                     "Collumn" => $column,

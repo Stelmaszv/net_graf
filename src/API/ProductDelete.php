@@ -10,6 +10,6 @@ class ProductDelete extends AbstractAction{
 
     public function action()
     {
-        return $this->engin->runQuery("DELETE FROM product WHERE `product`.`id` = $this->id",'');
+        return $this->engin->runQuery("DELETE FROM pets WHERE `pets`.`id` = $this->id",'');
     }
 }
