@@ -2,44 +2,36 @@
 
 namespace App\Api;
 
-use App\Api\AbstractAction;
-
-class ProductUpdate extends AbstractAction{
-
+class ProductUpdate extends AbstractAction
+{
     protected ?string $method = 'POST';
 
     public function action()
     {
-        $this->engin->runQuery($this->buildUpDateQuery(),'');
-        return json_encode(['Succes']);
+        $this->engin->runQuery($this->buildUpdateQuery(), '');
+        return json_encode(['Success']);
     }
 
-    protected function setValidationRouls() : array 
-    { 
-       return [
+    protected function setValidationRules(): array
+    {
+        return [
             "name" => 'Required',
             "contact" => 'Required | Email',
-       ];
+        ];
     }
 
-    private function buildUpDateQuery(): string
+    private function buildUpdateQuery(): string
     {
-
         $sql = 'UPDATE `pets` SET';
-        
-        $count = 0;
-        foreach($this->data as $key => $value){
-            if( $count !== 0 && count($this->data)>0 ){
-                $sql.=',';
-            }
 
-            $sql.= ' `'.$key .'` = "'.$this->engin->escapeString($value).'"';
-            $count++;
+        $setValues = [];
+        foreach ($this->data as $key => $value) {
+            $setValues[] = '`' . $key . '` = "' . $this->engin->escapeString($value) . '"';
         }
 
-        $sql.=' WHERE `id` = '.intval($this->id);
+        $sql .= implode(', ', $setValues);
+        $sql .= ' WHERE `id` = ' . intval($this->id);
 
         return $sql;
     }
-
 }

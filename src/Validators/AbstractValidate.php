@@ -2,13 +2,14 @@
 
 namespace App\Validators;
 
-abstract class AbstractValidate {
-
+abstract class AbstractValidate
+{
     protected mixed $value;
 
-    public function setValue(mixed $value){
+    public function setValue(mixed $value)
+    {
         $this->value = $value;
     }
 
-    abstract public function validate() : ?string;
+    abstract public function validate(): ?string;
 }

@@ -257,7 +257,7 @@ function post(id, action, dataSent) {
   })
     .then(response => response.json())
     .then(data => {
-      if (data && data[0] !== 'Succes') {
+      if (data[0] !== 'Success') {
         handleErrors(data);
       } else {
         handleSuccess();

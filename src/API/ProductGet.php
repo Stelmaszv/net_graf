@@ -3,17 +3,16 @@
 namespace App\Api;
 
 use Exception;
-use App\Api\AbstractAction;
 
-class ProductGet extends AbstractAction{
-
+class ProductGet extends AbstractAction
+{
     protected ?string $method = 'GET';
 
     public function action()
     {
-        $query = $this->engin->getQueryLoop("SELECT name,contact From `pets` WHERE id = $this->id;");
+        $query = $this->engin->getQueryLoop("SELECT name, contact FROM `pets` WHERE id = $this->id;");
         
-        if(count($query) > 0){
+        if (!empty($query)) {
             return json_encode($query[0]);
         }
 
