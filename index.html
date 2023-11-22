@@ -1,29 +1,64 @@
 <body>
-  <a href="index.html">lista</a>
+  <a class="showList" href="#">Lista</a>
   <a class="showAdd" href="#">Dodaj</a>
   <div id="erros">
   </div>
     <form class="add" style="visibility: hidden;">
-      <input type="text" class="form" name="name">
-      <input type="text" class="form" name="quantity">
-      <button class="addBut" onclick="add()"> Dodaj </button>
+      <input type="text" class="addForm" name="name">
+      <input type="text" class="addForm" name="quantity">
+      <button class="addBut" onclick="add(event)"> Dodaj </button>
     </form>
     <div id="view"></div>
 </body>
 <script>
   let showAdd = document.querySelector(".showAdd");
   showAdd.addEventListener("click", function(event) {;
-    event.preventDefault
+    event.preventDefault()
     refresh()
     let form = document.querySelector(".add");
     form.style.visibility = 'visible';
   });
 
+  let showList = document.querySelector(".showList");
+  showList.addEventListener("click", function(event) {;
+    event.preventDefault()
+    resetView()
+  });
+
 list()
 
-function add(){
+function get($id){
+  $url = 'http://localhost:3000/index.php?action=get&id='+$id
+  // Adres URL API, z którego chcesz pobrać dane
+const apiUrl = $url;
+
+// Użyj funkcji fetch do pobrania danych z API
+fetch(apiUrl)
+.then(response => {
+  return response.json();
+})
+.then(data => {
+  let view = document.querySelector("#view");
+  
+  let nameDiv = document.createElement("div");
+  nameDiv.innerHTML = data.name
+  view.appendChild(nameDiv)
+
+  let nameEmial = document.createElement("div");
+  nameEmial.innerHTML = data.quantity
+  view.appendChild(nameEmial)
+})
+
+.catch(error => {
+  // Obsługa błędów
+  console.error('Error fetching data:', error);
+});
+}
+
+function add(event){
+  event.preventDefault()
   let dataSent = [];
-  for(let el  of document.querySelectorAll(".form")){
+  for(let el  of document.querySelectorAll(".addForm")){
     dataSent.push(el.value)
   }
   post(undefined,'add',dataSent)
@@ -83,6 +118,10 @@ function list(){
       let show = document.createElement("button");
       show.innerHTML = 'pokaż';
       show.id = el.id
+      show.addEventListener("click", function() {;
+        refresh()
+        get(show.id)
+      });
       newElement.appendChild(show);
 
       let del = document.createElement("button");
@@ -138,7 +177,6 @@ function getForUpdate($id){
     })
     .then(data => {
       // Otrzymane dane
-      let dataSent = [];
 
       let view = document.getElementById('view');
 
@@ -166,13 +204,14 @@ function getForUpdate($id){
       buttonUpdate.id = $id
       buttonUpdate.innerHTML = "Zapisz Zmiany"
       view.appendChild(buttonUpdate);
-      buttonUpdate.addEventListener("click", function(event) {;
-        event.preventDefault()
-        let dataSent = [];
+      buttonUpdate.addEventListener("click", function() {;
+        dataSent = []
         for(let el  of document.querySelectorAll(".form")){
           dataSent.push(el.value)
         }
+      
         post($id,'update',dataSent)
+        list()
       });
 
     })
@@ -183,11 +222,23 @@ function getForUpdate($id){
     });
 }
 
+function resetView(){
+  list()
+  let erros = document.querySelector("#erros");
+  erros.innerHTML = '';
+  let form = document.querySelector(".add");
+  form.style.visibility = 'hidden';
+  for(let el  of document.querySelectorAll(".addForm")){
+    el.value = '';
+  }
+}
+
 function post($id,$action,dataSent){
       var dataToSend = {
           name: dataSent[0],
           quantity: dataSent[1]
       };
+      console.log(dataToSend)
     // Utworzenie obiektu URLSearchParams i dodanie parametrów
     var params = new URLSearchParams();
     for (var key in dataToSend) {
@@ -222,14 +273,7 @@ function post($id,$action,dataSent){
                 erros.appendChild(newElement);
               }
             }else{
-              list()
-              let erros = document.querySelector("#erros");
-              erros.innerHTML = '';
-              let form = document.querySelector(".add");
-              form.style.visibility = 'hidden';
-              for(let el  of document.querySelectorAll(".form")){
-                el.value = '';
-              }
+              ressetView()
             }
         })
 }
