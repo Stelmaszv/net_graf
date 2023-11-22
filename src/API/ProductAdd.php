@@ -11,7 +11,8 @@ class ProductAdd extends AbstractAction{
 
     public function action()
     {
-        return $this->engin->runQuery($this->buildInsertQuery(),'');
+        $this->engin->runQuery($this->buildInsertQuery(),'');
+        return json_encode(['Succes']);
     }
 
     protected function setValidationRouls() : array 

@@ -6,7 +6,7 @@ use App\Api\AbstractAction;
 
 class ProductDelete extends AbstractAction{
 
-    protected ?string $method = "DELETE";
+    protected ?string $method = "GET";
 
     public function action()
     {

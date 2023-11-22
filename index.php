@@ -12,8 +12,6 @@ $engine = $connect->getEngine();
 
 $view = null;
 
-
-
 if(isset($_GET['action'])){
     switch ($_GET['action']) {
         case "list":
