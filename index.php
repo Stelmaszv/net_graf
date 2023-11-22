@@ -26,7 +26,7 @@ if(isset($_GET['action'])){
             $view = new ProductDelete($engine,$_GET['id']);
             break;
         case "add":
-            $view = new ProductAdd($engine,null,$POST);
+            $view = new ProductAdd($engine,null,$_POST);
             break;
         case "update":
             $view = new ProductUpdate($engine,$_GET['id'],$_POST);

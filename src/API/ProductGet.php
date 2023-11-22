@@ -11,7 +11,7 @@ class ProductGet extends AbstractAction{
 
     public function action()
     {
-        $query = $this->engin->getQueryLoop("SELECT id,name From `product` WHERE id = $this->id;");
+        $query = $this->engin->getQueryLoop("SELECT name,quantity From `product` WHERE id = $this->id;");
         
         if(count($query) > 0){
             return json_encode($query[0]);

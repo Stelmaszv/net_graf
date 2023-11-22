@@ -18,7 +18,9 @@ abstract class AbstractAction{
     function __construct(DBInterface $engin, int $id = null, array $data = null)
     {
         $this->engin = $engin;
-        $this->fieldValidation($data);
+        if($this->method !== "GET"){
+            $this->fieldValidation($data);
+        }
         $this->data = $data;
 
         if($_SERVER['REQUEST_METHOD'] !== $this->method){
