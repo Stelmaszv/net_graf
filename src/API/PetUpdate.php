@@ -2,7 +2,7 @@
 
 namespace App\Api;
 
-class ProductUpdate extends AbstractAction
+class PetUpdate extends AbstractAction
 {
     protected ?string $method = 'POST';
 

@@ -1,11 +1,12 @@
 <?php
 
+use App\Api\PetAdd;
+use App\Api\PetGet;
 use App\DB\Connect;
-use App\Api\ProductsList;
-use App\Api\ProductAdd;
-use App\Api\ProductGet;
-use App\Api\ProductDelete;
-use App\Api\ProductUpdate;
+use App\Api\PetList;
+use App\Api\PetDelete;
+use App\Api\PetUpdate;
+
 
 require('vendor/autoload.php');
 
@@ -17,19 +18,19 @@ if (isset($_GET['action'])) {
 
     switch ($_GET['action']) {
         case "list":
-            $view = new ProductsList($engine);
+            $view = new PetList($engine);
             break;
         case "get":
-            $view = new ProductGet($engine, $_GET['id']);
+            $view = new PetGet($engine, $_GET['id']);
             break;
         case "delete":
-            $view = new ProductDelete($engine, $_GET['id']);
+            $view = new PetDelete($engine, $_GET['id']);
             break;
         case "add":
-            $view = new ProductAdd($engine, null, $_POST);
+            $view = new PetAdd($engine, null, $_POST);
             break;
         case "update":
-            $view = new ProductUpdate($engine, $_GET['id'], $_POST);
+            $view = new PetUpdate($engine, $_GET['id'], $_POST);
             break;
         default:
             echo "Invalid action.";

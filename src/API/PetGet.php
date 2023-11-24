@@ -4,7 +4,7 @@ namespace App\Api;
 
 use Exception;
 
-class ProductGet extends AbstractAction
+class PetGet extends AbstractAction
 {
     protected ?string $method = 'GET';
 
@@ -16,6 +16,6 @@ class ProductGet extends AbstractAction
             return json_encode($query[0]);
         }
 
-        throw new Exception('Not Found');
+        throw new Exception('Pet Not Found');
     }
 }

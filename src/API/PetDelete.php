@@ -2,7 +2,7 @@
 
 namespace App\Api;
 
-class ProductDelete extends AbstractAction
+class PetDelete extends AbstractAction
 {
     protected ?string $method = "GET";
 

@@ -17,11 +17,10 @@ abstract class AbstractAction
     public function __construct(DBInterface $engin, int $id = null, array $data = null)
     {
         $this->engin = $engin;
-        $this->method = $_SERVER['REQUEST_METHOD'];
         $this->id = intval($id);
         $this->data = $data;
 
-        if ($this->method !== "GET") {
+        if ($this->method === "POST"  ) {
             $this->fieldValidation($data);
         }
 

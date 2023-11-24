@@ -4,7 +4,7 @@ namespace App\Api;
 
 use Exception;
 
-class ProductAdd extends AbstractAction
+class PetAdd extends AbstractAction
 {
     protected ?string $method = 'POST';
 
