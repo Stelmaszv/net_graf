@@ -8,7 +8,7 @@ class PetUpdate extends AbstractAction
 
     public function action()
     {
-        $this->engin->runQuery($this->buildUpdateQuery(), '');
+        $this->engine->runQuery($this->buildUpdateQuery(), '');
         return json_encode(['Success']);
     }
 
@@ -26,7 +26,7 @@ class PetUpdate extends AbstractAction
 
         $setValues = [];
         foreach ($this->data as $key => $value) {
-            $setValues[] = '`' . $key . '` = "' . $this->engin->escapeString($value) . '"';
+            $setValues[] = '`' . $key . '` = "' . $this->engine->escapeString($value) . '"';
         }
 
         $sql .= implode(', ', $setValues);

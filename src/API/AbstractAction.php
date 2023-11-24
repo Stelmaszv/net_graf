@@ -8,15 +8,15 @@ use App\Validators\Validators;
 
 abstract class AbstractAction
 {
-    protected DBInterface $engin;
+    protected DBInterface $engine;
     protected ?int $id;
     protected ?string $method;
     protected ?array $data;
     protected array $errors = [];
 
-    public function __construct(DBInterface $engin, int $id = null, array $data = null)
+    public function __construct(DBInterface $engine, int $id = null, array $data = null)
     {
-        $this->engin = $engin;
+        $this->engine = $engine;
         $this->id = intval($id);
         $this->data = $data;
 
@@ -58,7 +58,7 @@ abstract class AbstractAction
     {
         return array_map(function (array $element) {
             return $element['column_name'];
-        }, $this->engin->getQueryLoop("SELECT column_name FROM information_schema.columns WHERE table_name = 'pets';"));
+        }, $this->engine->getQueryLoop("SELECT column_name FROM information_schema.columns WHERE table_name = 'pets';"));
     }
 
     private function fieldValidation(array $data)

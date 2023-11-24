@@ -10,7 +10,7 @@ class PetAdd extends AbstractAction
 
     public function action()
     {
-        $this->engin->runQuery($this->buildInsertQuery(), '');
+        $this->engine->runQuery($this->buildInsertQuery(), '');
         return json_encode(['Success']);
     }
 

@@ -9,6 +9,6 @@ class PetDelete extends AbstractAction
     public function action()
     {
         $query = sprintf("DELETE FROM pets WHERE `pets`.`id` = %s", $this->id);
-        return $this->engin->runQuery($query, '');
+        return $this->engine->runQuery($query, '');
     }
 }

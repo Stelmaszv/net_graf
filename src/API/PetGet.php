@@ -10,7 +10,7 @@ class PetGet extends AbstractAction
 
     public function action()
     {
-        $query = $this->engin->getQueryLoop("SELECT name, contact FROM `pets` WHERE id = $this->id;");
+        $query = $this->engine->getQueryLoop("SELECT name, contact FROM `pets` WHERE id = $this->id;");
         
         if (!empty($query)) {
             return json_encode($query[0]);

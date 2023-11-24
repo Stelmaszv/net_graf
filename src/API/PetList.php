@@ -8,7 +8,7 @@ class PetList extends AbstractAction
 
     public function action()
     {
-        $query = $this->engin->getQueryLoop("SELECT id, name, contact FROM `pets`;");
+        $query = $this->engine->getQueryLoop("SELECT id, name, contact FROM `pets`;");
         return json_encode($query);
     }
 }
