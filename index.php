@@ -7,7 +7,6 @@ use App\Api\PetList;
 use App\Api\PetDelete;
 use App\Api\PetUpdate;
 
-
 require('vendor/autoload.php');
 
 $connect = Connect::getInstance();
