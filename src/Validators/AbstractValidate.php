@@ -4,7 +4,7 @@ namespace App\Validators;
 
 abstract class AbstractValidate
 {
-    protected mixed $value;
+    protected mixed $value = null;
 
     public function setValue(mixed $value)
     {
