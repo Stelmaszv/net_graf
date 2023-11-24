@@ -26,7 +26,7 @@ if (isset($_GET['action'])) {
             $view = new PetDelete($engine, $_GET);
             break;
         case "add":
-            $view = new PetAdd($engine, null, $_POST);
+            $view = new PetAdd($engine, [], $_POST);
             break;
         case "update":
             $view = new PetUpdate($engine, $_GET, $_POST);
