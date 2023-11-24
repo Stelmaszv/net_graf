@@ -16,7 +16,6 @@ abstract class AbstractAction
 
     public function __construct(DBInterface $engine, int $id = null, array $data = [])
     {
-
         $this->validator = new Validator($data);
         $this->engine = $engine;
         $this->id = intval($id);
@@ -45,10 +44,12 @@ abstract class AbstractAction
 
     public function getAction()
     {
-        $this->validator->validate($this->setValidationRules());
 
-        if (count($this->validator->getErrors()) > 0) {
-            return json_encode($this->validator->getErrors());
+        if($this->validator){
+            $this->validator->validate($this->setValidationRules());
+            if (count($this->validator->getErrors()) > 0) {
+                return json_encode($this->validator->getErrors());
+            }
         }
 
         return $this->action();

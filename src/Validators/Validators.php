@@ -6,8 +6,15 @@ class Validators
 {
     public static function getValidator(string $validator): AbstractValidate
     {
-        return self::getValidators()[$validator];
-    }
+        $validators = self::getValidators();
+        $formattedValidator = ucfirst($validator);
+    
+        if (isset($validators[$formattedValidator])) {
+            return $validators[$formattedValidator];
+        }
+
+        return null;
+   }
 
     private static function getValidators(): array
     {

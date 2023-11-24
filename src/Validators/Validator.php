@@ -44,13 +44,11 @@ class Validator{
             $validator = Validators::getValidator($validatorName);
 
             if ($this->isFieldValueSet($key)) {
-                $validator->setValue($this->data[$key]);
+                $validator?->setValue($this->data[$key]);
             }
-    
-            $validatorMessage = $validator->validate();
-    
-            if ($validatorMessage) {
-                $this->addError($key, $validatorMessage);
+        
+            if ($validator?->validate()) {
+                $this->addError($key, $validator?->validate());
             }
         }
     }
