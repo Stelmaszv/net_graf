@@ -17,7 +17,7 @@ class PetAdd extends AbstractAction
     protected function setValidationRules(): array
     {
         return [
-            "name" => 'required',
+            "name" => 'Required',
             "contact" => 'Required | Email',
         ];
     }
