@@ -20,16 +20,16 @@ if (isset($_GET['action'])) {
             $view = new PetList($engine);
             break;
         case "get":
-            $view = new PetGet($engine, $_GET['id']);
+            $view = new PetGet($engine, $_GET);
             break;
         case "delete":
-            $view = new PetDelete($engine, $_GET['id']);
+            $view = new PetDelete($engine, $_GET);
             break;
         case "add":
             $view = new PetAdd($engine, null, $_POST);
             break;
         case "update":
-            $view = new PetUpdate($engine, $_GET['id'], $_POST);
+            $view = new PetUpdate($engine, $_GET, $_POST);
             break;
         default:
             echo "Invalid action.";

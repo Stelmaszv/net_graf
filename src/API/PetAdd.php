@@ -10,14 +10,14 @@ class PetAdd extends AbstractAction
 
     public function action()
     {
-        $this->engine->runQuery($this->buildInsertQuery(), '');
+        $this->engine->runQuery($this->buildInsertQuery());
         return json_encode(['Success']);
     }
 
     protected function setValidationRules(): array
     {
         return [
-            "name" => 'Required',
+            "name" => 'required',
             "contact" => 'Required | Email',
         ];
     }

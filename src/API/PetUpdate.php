@@ -2,13 +2,19 @@
 
 namespace App\Api;
 
+use Exception;
+
 class PetUpdate extends AbstractAction
 {
     protected ?string $method = 'POST';
 
     public function action()
     {
-        $this->engine->runQuery($this->buildUpdateQuery(), '');
+        if($this->id === null){
+            throw new Exception('Id is not defined!');
+        }
+
+        $this->engine->runQuery($this->buildUpdateQuery());
         return json_encode(['Success']);
     }
 

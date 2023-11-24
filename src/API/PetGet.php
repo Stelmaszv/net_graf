@@ -10,6 +10,10 @@ class PetGet extends AbstractAction
 
     public function action()
     {
+        if($this->id === null){
+            throw new Exception('Id is not defined!');
+        }
+
         $query = $this->engine->getQueryLoop("SELECT name, contact FROM `pets` WHERE id = $this->id;");
         
         if (!empty($query)) {

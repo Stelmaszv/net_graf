@@ -14,12 +14,12 @@ abstract class AbstractAction
     protected ?array $data;
     private Validator $validator;
 
-    public function __construct(DBInterface $engine, int $id = null, array $data = [])
+    public function __construct(DBInterface $engine, array $get = [], array $post = [])
     {
-        $this->validator = new Validator($data);
+        $this->validator = new Validator($post);
         $this->engine = $engine;
-        $this->id = intval($id);
-        $this->data = $data;
+        $this->id = (isset($get['id'])) ? intval($get['id']) : null;
+        $this->data = $post;
 
         if ($this->method === "POST"  ) {
             $this->validator->fieldValidation($this->getColumns());
