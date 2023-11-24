@@ -44,14 +44,34 @@ abstract class AbstractAction
 
     public function getAction()
     {
-
-        if($this->validator){
-            $this->validator->validate($this->setValidationRules());
-            if (count($this->validator->getErrors()) > 0) {
-                return json_encode($this->validator->getErrors());
+        if ($this->validator) {
+            $this->validateData();
+    
+            if ($this->hasValidationErrors()) {
+                return $this->getJsonErrorResponse();
             }
         }
-
+    
+        return $this->executeAction();
+    }
+    
+    private function validateData(): void
+    {
+        $this->validator->validate($this->setValidationRules());
+    }
+    
+    private function hasValidationErrors(): bool
+    {
+        return count($this->validator->getErrors()) > 0;
+    }
+    
+    private function getJsonErrorResponse(): string
+    {
+        return json_encode($this->validator->getErrors());
+    }
+    
+    private function executeAction()
+    {
         return $this->action();
     }
 
