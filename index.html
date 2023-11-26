@@ -11,6 +11,10 @@
       position: absolute;
       top:5;
     }
+
+    .pet{
+      margin-top: 10px;
+    }
   </style>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -94,23 +98,30 @@ function list() {
         let name = createColumn("col", el.name);
         row.appendChild(name);
 
-        let showBtn = createButtonColumn("col", "pokaż", el.id, () => {
+        let show = createColumn("col");
+        let showBtn = createButtonColumn("btn-info","pokaż", el.id, () => {
           refresh();
-          get(showBtn.id);
+          get(show.id);
         });
-        row.appendChild(showBtn);
+        show.appendChild(showBtn);
+        row.appendChild(show);
+        
 
-        let updateBtn = createButtonColumn("col", "zmień", el.id, () => {
+        let update = createColumn("col");
+        let buttonBtn = createButtonColumn("btn-warning", "zmień", el.id, () => {
           refresh();
           update(updateBtn.id);
         });
-        row.appendChild(updateBtn);
+        update.appendChild(buttonBtn);
+        row.appendChild(update);
 
-        let removeBtn = createButtonColumn("col", "usuń", el.id, () => {
+        let remove = createColumn("col");
+        let removeBtn = createButtonColumn("btn-danger", "usuń", el.id, () => {
           refresh();
           remove(removeBtn.id);
         });
-        row.appendChild(removeBtn);
+        remove.appendChild(removeBtn);
+        row.appendChild(remove);
 
         document.body.appendChild(row);
       });
@@ -122,19 +133,27 @@ function list() {
       console.error('Error fetching data:', error);
     });
 
-  function createColumn(className, content) {
+  function createColumn(className, content = null) {
     let column = document.createElement("div");
     column.classList.add(className);
     column.innerHTML = content;
     return column;
   }
 
+  function createButton(className, content = null) {
+    let column = document.createElement("button");
+    column.classList.add('btn');
+    column.classList.add(className);
+    column.innerHTML = content;
+    return column;
+  }
+
   function createButtonColumn(className, label, id, clickHandler) {
-    let buttonColumn = createColumn(className, label);
+    let buttonColumn = createButton(className, label);
     buttonColumn.id = id;
     buttonColumn.addEventListener("click", clickHandler);
     return buttonColumn;
-  }
+  } 
 }
 
 function refresh() {
