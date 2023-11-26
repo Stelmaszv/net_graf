@@ -75,7 +75,7 @@
       list();
 
 function list() {
-  const apiUrl = 'http://localhost:3000/index.php?action=list';
+  const apiUrl = 'http://localhost:3000/api.php?action=list';
 
   fetch(apiUrl)
     .then(response => {
@@ -142,7 +142,7 @@ function refresh() {
 }
 
 function get(id) {
-  const apiUrl = `http://localhost:3000/index.php?action=get&id=${id}`;
+  const apiUrl = `http://localhost:3000/api.php?action=get&id=${id}`;
 
   fetch(apiUrl)
     .then(response => response.json())
@@ -175,7 +175,7 @@ function get(id) {
 }
 
 function update(id) {
-  const apiUrl = `http://localhost:3000/index.php?action=get&id=${id}`;
+  const apiUrl = `http://localhost:3000/api.php?action=get&id=${id}`;
 
   fetch(apiUrl)
     .then(response => {
@@ -202,7 +202,7 @@ function update(id) {
 }
 
 function remove(id) {
-  const apiUrl = `http://localhost:3000/index.php?action=delete&id=${id}`;
+  const apiUrl = `http://localhost:3000/api.php?action=delete&id=${id}`;
 
   fetch(apiUrl)
     .then(data => {
@@ -241,7 +241,7 @@ function post(id, action, dataSent) {
     contact: dataSent[1],
   };
 
-  const url = `http://localhost:3000/index.php?action=${action}${id ? `&id=${id}` : ''}`;
+  const url = `http://localhost:3000/api.php?action=${action}${id ? `&id=${id}` : ''}`;
 
   const params = new URLSearchParams();
   for (const key in dataToSend) {

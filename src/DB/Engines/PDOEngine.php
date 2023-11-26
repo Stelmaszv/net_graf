@@ -6,8 +6,8 @@ namespace App\DB\Engines;
 use PDO;
 use PDOException;
 use App\DB\DBSettings;
+use App\DB\DBException;
 use App\DB\DBInterface;
-use App\Infrastructure\DB\DBException;
 
 class PDOEngine implements DBInterface
 {

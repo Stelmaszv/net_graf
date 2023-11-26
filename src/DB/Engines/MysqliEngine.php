@@ -3,8 +3,8 @@
 namespace App\DB\Engines;
 
 use App\DB\DBSettings;
+use App\DB\DBException;
 use App\DB\DBInterface;
-use App\Infrastructure\DB\DBException;
 
 class MysqliEngine implements DBInterface
 {
